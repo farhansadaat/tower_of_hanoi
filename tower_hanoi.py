@@ -1,5 +1,3 @@
-
-
 charon = 999
 a1 = 3
 a2 = 2
@@ -73,7 +71,6 @@ def hanoi():
                     b1 = charon
                 
                 elif b1 < charon:
-                    #print("broken")
                     if a1 == " ":
                         a1 = charon
                     else:
@@ -87,7 +84,6 @@ def hanoi():
                         b2 = charon
 
                     elif b2 < charon:
-                        #double broke
                         if a1 == " ":
                             a1 = charon
                         else:
@@ -105,7 +101,7 @@ def hanoi():
                     c1 = charon
 
                 elif c1 < charon:
-                    #broke
+                    
                     if a1 == " ":
                         a1 = charon
                     else:
@@ -119,7 +115,6 @@ def hanoi():
                         c2 = charon
 
                     elif c2 < charon:
-                        #double broke
                         if a1 == " ":
                             a1 = charon
                         else:
@@ -181,7 +176,6 @@ def hanoi():
                         a2 = charon
 
                     elif a2 < charon:
-                        #double broke
                         if b1 == " ":
                             b1 = charon
                         else:
@@ -198,7 +192,6 @@ def hanoi():
                 if c1 == " ":
                     c1 = charon
                 elif c1 < charon:
-                    #broke
                     if b1 == " ":
                         b1 = charon
                     else:
@@ -212,7 +205,6 @@ def hanoi():
                         c2 = charon
 
                     elif c2 < charon:
-                        #double broke
                         if b1 == " ":
                             b1 = charon
                         else:
@@ -259,7 +251,6 @@ def hanoi():
                     a1 = charon
 
                 elif a1 < charon:
-                    #broke
                     if c1 == " ":
                         c1 = charon
                     else:
@@ -273,7 +264,6 @@ def hanoi():
                         a2 = charon
 
                     elif a2 < charon:
-                        #double broke
                         if c1 == " ":
                             c1 = charon
                         else:
@@ -291,7 +281,6 @@ def hanoi():
                     b1 = charon
 
                 elif b1 < charon:
-                    #broke
                     if c1 == " ":
                         c1 = charon
                     else:
@@ -305,7 +294,6 @@ def hanoi():
                         b2 = charon
 
                     elif b2 < charon:
-                        #double broke
                         if c1 == " ":
                             c1 = charon
                         else:
