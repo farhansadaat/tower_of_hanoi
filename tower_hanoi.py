@@ -1,354 +1,84 @@
-chn = 999
-a1 = 3
-a2 = 2
-a3 = 1
-b1 = " "
-b2 = " "
-b3 = " "
-c1 = " "
-c2 = " "
-c3 = " "
+"""Interactive Tower of Hanoi game."""
+
+NUM_DISKS = 3
+COLUMN_NAMES = ("A", "B", "C")
+
+
+def new_game(num_disks):
+    return {
+        "A": list(range(num_disks, 0, -1)),
+        "B": [],
+        "C": [],
+    }
+
+
+def print_board(columns, num_disks):
+    print()
+    for row in range(num_disks - 1, -1, -1):
+        cells = []
+        for name in COLUMN_NAMES:
+            column = columns[name]
+            cells.append(str(column[row]) if row < len(column) else " ")
+        print(" | ".join(cells))
+    print()
+
+
+def read_column(prompt):
+    choice = input(prompt).strip().upper()
+    if choice not in COLUMN_NAMES:
+        print(f"Please enter one of {', '.join(COLUMN_NAMES)}.")
+        return None
+    return choice
+
+
+def move_disk(columns, source, destination):
+    if not columns[source]:
+        print(f"Column {source} is empty.")
+        return False
+
+    disk = columns[source][-1]
+    if columns[destination] and columns[destination][-1] < disk:
+        print("You can't place a larger disk on a smaller one.")
+        return False
+
+    columns[destination].append(columns[source].pop())
+    return True
+
+
+def is_solved(columns, num_disks):
+    return len(columns["B"]) == num_disks or len(columns["C"]) == num_disks
+
 
 def main():
+    print("Tower of Hanoi")
+    print("Enter a column (A, B, or C) to move the top disk from, then a column to move it to.")
+    print("A larger disk can never be placed on a smaller one.")
+    print(f"Goal: move the entire stack of {NUM_DISKS} disks off column A.")
 
-    print("")
-    print(f"{a3} | {b3} | {c3}")
-    print(f"{a2} | {b2} | {c2}")
-    print(f"{a1} | {b1} | {c1}")
-    print("")
+    columns = new_game(NUM_DISKS)
+    moves = 0
 
-    hanoi()
+    while not is_solved(columns, NUM_DISKS):
+        print_board(columns, NUM_DISKS)
 
-print("")    
-print("Choose a column (1, 2, or 3) to pull the top number, then choose a column to move that number to. Numbers must always be less than the number beneath them.")
-print("Goal: move the full stack to another column.")
+        source = read_column("Move from column? ")
+        if source is None:
+            continue
 
-def hanoi():
-    global a1
-    global a2
-    global a3
-    global b1
-    global b2
-    global b3
-    global c1
-    global c2
-    global c3
-    global charon
+        destination = read_column("Move to column? ")
+        if destination is None:
+            continue
 
-    col = input("Column? ")
-    if col.isdigit():
+        if source == destination:
+            print("Source and destination must be different.")
+            continue
 
+        if move_disk(columns, source, destination):
+            moves += 1
 
-        if int(col) == 1:
-            if a3 == " ":
-                if a2 == " ":
-                    if a1 == " ":
-                        print("empty.")
-                        hanoi()
-                    else:
-                        charon = a1
-                        a1 = " "
-                else:
-                    charon = a2
-                    a2 = " "
-            else:
-                charon = a3
-                a3 = " "
-
-            move = int(input("Move to? "))
-
-            if move == 1:
-                if a1 == " ":
-                    a1 = charon
-                else:
-                    if a2 == " ":
-                        a2 = charon
-                    else:
-                        a3 = charon
-
-            elif int(move) == 2:
-                if b1 == " ":
-                    b1 = charon
-                
-                elif b1 < charon:
-                    if a1 == " ":
-                        a1 = charon
-                    else:
-                        if a2 == " ":
-                            a2 = charon
-                        else:
-                            a3 = charon
-
-                else:
-                    if b2 == " ":
-                        b2 = charon
-
-                    elif b2 < charon:
-                        if a1 == " ":
-                            a1 = charon
-                        else:
-                            if a2 == " ":
-                                a2 = charon
-                            else:
-                                a3 = charon    
-
-                    else:
-                        b3 = charon
+    print_board(columns, NUM_DISKS)
+    print(f"Congratulations! You solved it in {moves} moves.")
 
 
-            elif int(move) == 3:
-                if c1 == " ":
-                    c1 = charon
-
-                elif c1 < charon:
-                    
-                    if a1 == " ":
-                        a1 = charon
-                    else:
-                        if a2 == " ":
-                            a2 = charon
-                        else:
-                            a3 = charon                
-
-                else:
-                    if c2 == " ":
-                        c2 = charon
-
-                    elif c2 < charon:
-                        if a1 == " ":
-                            a1 = charon
-                        else:
-                            if a2 == " ":
-                                a2 = charon
-                            else:
-                                a3 = charon    
-
-                    else:
-                        c3 = charon
-            
-            else:
-                print("stew")
-
-
-
-        elif int(col) == 2:
-            if b3 == " ":
-                if b2 == " ":
-                    if b1 == " ":
-                        print("empty.")
-                        hanoi()
-                    else:
-                        charon = b1
-                        b1 = " "
-                else:
-                    charon = b2
-                    b2 = " "
-            else:
-                charon = b3
-                b3 = " "
-
-            move = int(input("Move to? "))
-            if move == 2:
-                if b1 == " ":
-                    b1 = charon            
-                else:
-                    if b2 == " ":
-                        b2 = charon
-                    else:
-                        b3 = charon
-
-            elif int(move) == 1:
-                if a1 == " ":
-                    a1 = charon
-
-                elif a1 < charon:
-                    #broke
-                    if b1 == " ":
-                        b1 = charon
-                    else:
-                        if b2 == " ":
-                            b2 = charon
-                        else:
-                            b3 = charon    
-
-                else:
-                    if a2 == " ":
-                        a2 = charon
-
-                    elif a2 < charon:
-                        if b1 == " ":
-                            b1 = charon
-                        else:
-                            if b2 == " ":
-                                b2 = charon
-                            else:
-                                b3 = charon    
-
-                    else:
-                        a3 = charon
-
-
-            elif int(move) == 3:
-                if c1 == " ":
-                    c1 = charon
-                elif c1 < charon:
-                    if b1 == " ":
-                        b1 = charon
-                    else:
-                        if b2 == " ":
-                            b2 = charon
-                        else:
-                            b3 = charon    
-                
-                else:
-                    if c2 == " ":
-                        c2 = charon
-
-                    elif c2 < charon:
-                        if b1 == " ":
-                            b1 = charon
-                        else:
-                            if b2 == " ":
-                                b2 = charon
-                            else:
-                                b3 = charon    
-                    else:
-                        c3 = charon
-            
-            else:
-                print("stew")
-
-
-
-        elif int(col) == 3:
-            if c3 == " ":
-                if c2 == " ":
-                    if c1 == " ":
-                        print("empty.")
-                        hanoi()
-                    else:
-                        charon = c1
-                        c1 = " "
-                else:
-                    charon = c2
-                    c2 = " "
-            else:
-                charon = c3
-                c3 = " "
-
-            move = int(input("Move to? "))
-            if move == 3:
-                if c1 == " ":
-                    c1 = charon
-                else:
-                    if c2 == " ":
-                        c2 = charon
-                    else:
-                        c3 = charon
-
-            elif int(move) == 1:
-                if a1 == " ":
-                    a1 = charon
-
-                elif a1 < charon:
-                    if c1 == " ":
-                        c1 = charon
-                    else:
-                        if c2 == " ":
-                            c2 = charon
-                        else:
-                            c3 = charon    
-
-                else:
-                    if a2 == " ":
-                        a2 = charon
-
-                    elif a2 < charon:
-                        if c1 == " ":
-                            c1 = charon
-                        else:
-                            if c2 == " ":
-                                c2 = charon
-                            else:
-                                c3 = charon    
-
-                    else:
-                        a3 = charon
-
-
-            elif int(move) == 2:
-                if b1 == " ":
-                    b1 = charon
-
-                elif b1 < charon:
-                    if c1 == " ":
-                        c1 = charon
-                    else:
-                        if c2 == " ":
-                            c2 = charon
-                        else:
-                            c3 = charon    
-
-                else:
-                    if b2 == " ":
-                        b2 = charon
-
-                    elif b2 < charon:
-                        if c1 == " ":
-                            c1 = charon
-                        else:
-                            if c2 == " ":
-                                c2 = charon
-                            else:
-                                c3 = charon    
-
-                    else:
-                        b3 = charon
-            
-            else:
-                print("stew")
-    else:
-        print("1 2 or 3")
-        hanoi()
-
-
-
-    print("")
-    print(f"{a3} | {b3} | {c3}")
-    print(f"{a2} | {b2} | {c2}")
-    print(f"{a1} | {b1} | {c1}")
-    print("")
-
-
-    if b3 == 1:
-        print("CONGRADULATIONS!")
-        print("")
-
-
-    if c3 == 1:
-        print("CONGRADULATIONS!")
-        print("")
-
-
-
-
-    hanoi()
-
-def test():
-
-    global a1
-    global a2
-    global a3
-    global b1
-    global b2
-    global b3
-    global c1
-    global c2
-    global c3
-
-    print(f"{a3}")
-    a3 = c3
-    print(f"{a3}")
-
-
-main()
+if __name__ == "__main__":
+    main()
